@@ -12,17 +12,18 @@ def main():
     training_labels_file_name = sys.argv[2]
     
     # reading data
-    training_images = Dataset( training_images_file_name )
+    dataset = Dataset( training_images_file_name, 0.75 )
     for i in range(10):
-        training_images.printImage( i )
+        dataset.printImage( i )
 
-    training_images.loadLabels(training_labels_file_name)
+    dataset.loadLabels(training_labels_file_name)
 
-
-    # divide data
-
+    # setup perceptron
+    perceptron = Perceptron( dataset, 0.05 )
 
     # train perceptron
+    perceptron.train()
+
 
 
     # validate perceptron
