@@ -1,18 +1,14 @@
 import numpy as np
-from random import random
+from random import random, randrange
 from math import tanh
 
 class Perceptron:
 
-    def __init__(self, dataset, learning_rate ):
+    def __init__(self, dataset ):
     
         self.dataset = dataset
-        self.learning_rate = learning_rate
         self.number_of_inputs = self.dataset.number_of_cols * self.dataset.number_of_rows
         self.number_of_nodes = len(self.dataset.digits)
-
-        print(self.number_of_inputs)
-        print(self.number_of_nodes)
 
         self.inputs = np.zeros(self.number_of_inputs)
         random_weights = np.array([random() for i in range(0, self.number_of_inputs * self.number_of_nodes) ])
@@ -21,21 +17,60 @@ class Perceptron:
 
     def train(self):
 
-        for i in range(0, len(self.dataset.train_labels) - 1):
+        for i in range(0, len(self.dataset.train_labels)):
 
-            for j in range(0, self.number_of_nodes - 1):
+            for j in range(0, self.number_of_nodes):
                 inputs = self.dataset.train_images[i,:]
                 weights = self.weights[:,j]
                 self.nodes[j] = tanh(np.dot(inputs, weights))
-                print(self.nodes[j])
 
                 # calculate error
                 # if the label fits the label of the node target = 1
-                # else -> target = 0
-                # target - nodes[j] = error 
+                current_digit = self.dataset.digits[j]
+                train_digit = self.dataset.train_labels[i]
+                if current_digit == train_digit:
+                    target = 1.0
+                else:
+                    target = -1.0
+                error = target - self.nodes[j] 
 
                 # update weights
-                # weights = learning_rate * inputs * errro
+                learning_rate = randrange(1,4)/100
+                self.weights[:,j] += learning_rate * inputs * error
+
+
+    def test(self):
+        event_counter = 0.0
+        success_counter = 0.0 
+        for i in range(0, len(self.dataset.test_labels)):
+            
+            for j in range(0, self.number_of_nodes):
+                inputs = self.dataset.test_images[i,:]
+                weights = self.weights[:,j]
+                self.nodes[j] = tanh(np.dot(inputs, weights))
+
+                current_digit = self.dataset.digits[j]
+                target_digit = self.dataset.test_labels[i]
+        
+            predicted_index = np.where(self.nodes == np.amax(self.nodes))[0][0]
+            current_digit = self.dataset.digits[predicted_index]
+            test_digit = self.dataset.test_labels[i]
+
+            if current_digit == test_digit:
+                success_counter += 1.0
+                event_counter += 1.0
+            else:
+                event_counter += 1.0
+        
+        return( 1 / event_counter * success_counter )
+
+    def predict(self):
+        print("I'm the predictor")
+
+
+
+
+
 
             
             

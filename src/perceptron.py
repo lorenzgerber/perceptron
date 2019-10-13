@@ -13,20 +13,18 @@ def main():
     
     # reading data
     dataset = Dataset( training_images_file_name, 0.75 )
-    for i in range(10):
-        dataset.printImage( i )
-
     dataset.loadLabels(training_labels_file_name)
 
     # setup perceptron
-    perceptron = Perceptron( dataset, 0.05 )
+    perceptron = Perceptron( dataset )
 
     # train perceptron
-    perceptron.train()
+    success_rate = 0
+    while success_rate < 0.90:
+        perceptron.train()
+        success_rate = perceptron.test()
 
-
-
-    # validate perceptron
+    print(success_rate)
 
 if __name__ == "__main__":
     main()

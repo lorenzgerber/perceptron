@@ -17,8 +17,6 @@ class Dataset:
         self.number_of_images = int(dimensions[0])
         self.digits = [ int(i) for i in list(dimensions[3])]
         self.image_data = lines[3:]
-        #self.image_data = [list(map(int, image_data[i].split())) for i in range(0, len(image_data)-1)]
-
 
         self.number_of_images_training = floor(self.number_of_images * 0.75)
         self.number_of_images_test = self.number_of_images - self.number_of_images_training
@@ -28,9 +26,10 @@ class Dataset:
         self.indices_test = indices[self.number_of_images_training:]
         
         self.train_images = np.array([list(map(int, self.image_data[i].split())) for i in self.indices_train], dtype=float)
+        self.train_images = np.divide(self.train_images, 1000.0)
+        
         self.test_images = np.array([list(map(int, self.image_data[i].split())) for i in self.indices_test], dtype=float)
-        self.train_images = np.divide(self.train_images, 50000.0)
-        self.test_images = np.divide(self.test_images, 50000.0)
+        self.test_images = np.divide(self.test_images, 1000.0)
 
 
     def loadLabels( self, file_name ):
