@@ -1,6 +1,8 @@
 from perceptron.dataset import Dataset
 from perceptron.perceptron import Perceptron
+from time import time
 import sys
+
 
 def main():
 
@@ -23,11 +25,12 @@ def main():
 
     # train perceptron
     success_rate = 0
+    start_time = time()
     while success_rate < 0.90:
         perceptron.train()
         success_rate = perceptron.test()
-
-    print(success_rate)
+        if time() - start_time > 15:
+            success_rate = 1
 
     # validate perceptron
     perceptron.predict()

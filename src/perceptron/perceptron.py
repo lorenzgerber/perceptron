@@ -36,7 +36,7 @@ class Perceptron:
                 error = target - self.nodes[j] 
 
                 # update weights
-                learning_rate = randrange(1,5)/100
+                learning_rate = randrange(1,6)/100
                 self.weights[:,j] += learning_rate * inputs * error
 
 
