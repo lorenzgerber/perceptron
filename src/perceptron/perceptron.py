@@ -36,7 +36,7 @@ class Perceptron:
                 error = target - self.nodes[j] 
 
                 # update weights
-                learning_rate = randrange(1,4)/100
+                learning_rate = randrange(1,5)/100
                 self.weights[:,j] += learning_rate * inputs * error
 
 
@@ -49,9 +49,6 @@ class Perceptron:
                 inputs = self.dataset.test_images[i,:]
                 weights = self.weights[:,j]
                 self.nodes[j] = tanh(np.dot(inputs, weights))
-
-                current_digit = self.dataset.digits[j]
-                target_digit = self.dataset.test_labels[i]
         
             predicted_index = np.where(self.nodes == np.amax(self.nodes))[0][0]
             current_digit = self.dataset.digits[predicted_index]
@@ -66,7 +63,15 @@ class Perceptron:
         return( 1 / event_counter * success_counter )
 
     def predict(self):
-        print("I'm the predictor")
+        for i in range(0, self.data_validation.number_of_images ):
+            for j in range(0, self.number_of_nodes):
+                inputs = self.data_validation.train_images[i,:]
+                weights = self.weights[:,j]
+                self.nodes[j] = tanh(np.dot(inputs, weights))
+            
+            predicted_index = np.where(self.nodes == np.amax(self.nodes))[0][0]
+            predicted_digit = self.data_validation.digits[predicted_index]
+            print(predicted_digit)
 
 
 

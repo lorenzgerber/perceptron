@@ -6,10 +6,12 @@ import numpy as np
 
 class Dataset:
     
-    def __init__( self, file_name, split ):
+    def __init__( self, file_name, split_ratio, randomize=True ):
         f = open( file_name, "r")
         lines = f.readlines()
         f.close()
+
+        self.randomized = randomize
 
         dimensions = str.split( lines[2] )
         self.number_of_rows = int(dimensions[1])
@@ -18,11 +20,12 @@ class Dataset:
         self.digits = [ int(i) for i in list(dimensions[3])]
         self.image_data = lines[3:]
 
-        self.number_of_images_training = floor(self.number_of_images * 0.75)
+        self.number_of_images_training = floor(self.number_of_images * split_ratio)
         self.number_of_images_test = self.number_of_images - self.number_of_images_training
         indices = [i for i in range(0,self.number_of_images)]
-        shuffle(indices)
-        self.indices_train = indices[:(self.number_of_images_training - 1)]
+        if self.randomized:
+            shuffle(indices)
+        self.indices_train = indices[:(self.number_of_images_training)]
         self.indices_test = indices[self.number_of_images_training:]
         
         self.train_images = np.array([list(map(int, self.image_data[i].split())) for i in self.indices_train], dtype=float)

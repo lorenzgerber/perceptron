@@ -14,9 +14,9 @@ def main():
     validation_images_file_name = sys.argv[3]
     
     # reading data
-    dataset_training = Dataset( training_images_file_name, 0.75 )
+    dataset_training = Dataset( training_images_file_name, 0.75, True )
     dataset_training.loadLabels(training_labels_file_name)
-    dataset_validation = Dataset(validation_images_file_name, 1)
+    dataset_validation = Dataset(validation_images_file_name, 1, False )
 
     # setup perceptron
     perceptron = Perceptron( dataset_training, dataset_validation )
@@ -30,6 +30,7 @@ def main():
     print(success_rate)
 
     # validate perceptron
+    perceptron.predict()
 
 if __name__ == "__main__":
     main()
