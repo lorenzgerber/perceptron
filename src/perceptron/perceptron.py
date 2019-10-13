@@ -4,9 +4,10 @@ from math import tanh
 
 class Perceptron:
 
-    def __init__(self, dataset ):
+    def __init__(self, dataset_training, dataset_validation ):
     
-        self.dataset = dataset
+        self.dataset = dataset_training
+        self.data_validation = dataset_validation
         self.number_of_inputs = self.dataset.number_of_cols * self.dataset.number_of_rows
         self.number_of_nodes = len(self.dataset.digits)
 
