@@ -21,7 +21,7 @@ def main():
     dataset_validation = Dataset(validation_images_file_name, 1, randomize=False )
 
     # setup perceptron
-    network = Network( number_of_perceptrons=4, dataset_training=dataset_training, dataset_validation=dataset_validation )
+    network = Network( dataset_training, dataset_validation )
 
     # train perceptron
     success_rate = 0
