@@ -18,20 +18,22 @@ class Dataset:
         self.number_of_cols = int(dimensions[2])
         self.number_of_images = int(dimensions[0])
         self.digits = [ int(i) for i in list(dimensions[3])]
-        self.image_data = lines[3:]
-
         self.number_of_images_training = floor(self.number_of_images * split_ratio)
         self.number_of_images_test = self.number_of_images - self.number_of_images_training
+        
         indices = [i for i in range(0,self.number_of_images)]
+        
         if self.randomized:
             shuffle(indices)
+        
         self.indices_train = indices[:(self.number_of_images_training)]
         self.indices_test = indices[self.number_of_images_training:]
         
-        self.train_images = np.array([list(map(int, self.image_data[i].split())) for i in self.indices_train], dtype=float)
+        image_data = lines[3:]
+        self.train_images = np.array([list(map(int, image_data[i].split())) for i in self.indices_train], dtype=float)
         self.train_images = np.divide(self.train_images, 1000.0)
         
-        self.test_images = np.array([list(map(int, self.image_data[i].split())) for i in self.indices_test], dtype=float)
+        self.test_images = np.array([list(map(int, image_data[i].split())) for i in self.indices_test], dtype=float)
         self.test_images = np.divide(self.test_images, 1000.0)
 
 
@@ -51,13 +53,7 @@ class Dataset:
             print("number of labels does not correspond to number of images")
             exit(0)
 
-        self.labels = lines[3:]
+        labels = lines[3:]
 
-        self.train_labels = [int(self.labels[i]) for i in self.indices_train]
-        self.test_labels = [int(self.labels[i]) for i in self.indices_test]
-
-
-    def printImage(self, index_of_image ):
-        image = str.split(self.image_data[ index_of_image ])
-        for i in range(0,self.number_of_rows):
-            print( ''.join(map(str, image[((i * self.number_of_rows) + 0):((i * self.number_of_rows) + self.number_of_cols)] )))
+        self.train_labels = [int(labels[i]) for i in self.indices_train]
+        self.test_labels = [int(labels[i]) for i in self.indices_test]

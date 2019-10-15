@@ -63,15 +63,3 @@ class Network:
             predicted_index = predicted.index(max(predicted))
             predicted_digit = self.data_validation.digits[predicted_index]
             print(predicted_digit)
-
-
-
-
-
-
-            
-            
-
-
-
-
