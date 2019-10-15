@@ -8,7 +8,7 @@ def main():
 
     # Parsing and checking cli args
     if (len(sys.argv) != 4):
-        print("Usage: perceptron.py training_images.txt training_labels.txt validation_images.txt")
+        print("Usage: digits.py training_images.txt training_labels.txt validation_images.txt")
         sys.exit(0)
 
     training_images_file_name = sys.argv[1]
