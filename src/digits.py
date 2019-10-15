@@ -1,5 +1,5 @@
 from dataset import Dataset
-from perceptron import Perceptron
+from network import Network
 from time import time
 import sys
 
@@ -16,24 +16,24 @@ def main():
     validation_images_file_name = sys.argv[3]
     
     # reading data
-    dataset_training = Dataset( training_images_file_name, 0.75, True )
+    dataset_training = Dataset( training_images_file_name, 0.75, randomize=True )
     dataset_training.loadLabels(training_labels_file_name)
-    dataset_validation = Dataset(validation_images_file_name, 1, False )
+    dataset_validation = Dataset(validation_images_file_name, 1, randomize=False )
 
     # setup perceptron
-    perceptron = Perceptron( dataset_training, dataset_validation )
+    network = Network( number_of_perceptrons=4, dataset_training=dataset_training, dataset_validation=dataset_validation )
 
     # train perceptron
     success_rate = 0
     start_time = time()
     while success_rate < 0.90:
-        perceptron.train()
-        success_rate = perceptron.test()
+        network.train()
+        success_rate = network.test()
         if time() - start_time > 15:
             success_rate = 1
 
     # validate perceptron
-    perceptron.predict()
+    network.predict()
 
 if __name__ == "__main__":
     main()
