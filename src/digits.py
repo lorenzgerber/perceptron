@@ -1,5 +1,5 @@
-from dataset import Dataset
-from network import Network
+from perceptron import Dataset
+from perceptron import Network
 from time import time
 import sys
 
