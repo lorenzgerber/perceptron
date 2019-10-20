@@ -4,7 +4,7 @@ from random import random, randrange, shuffle
 from math import tanh, floor
 
 
-class Cell:
+class Node:
  
     def __init__(self, number_of_inputs, label ):
 
@@ -42,20 +42,20 @@ class Network:
         self.dataset = dataset_training
         self.data_validation = dataset_validation
         self.number_of_inputs = self.dataset.number_of_cols * self.dataset.number_of_rows
-        self.number_of_cells = len(self.dataset.digits)
+        self.number_of_nodes = len(self.dataset.digits)
         self.inputs = np.zeros(self.number_of_inputs)
-        self.cells = np.array([ Cell(self.number_of_inputs, self.dataset.digits[i]) for i in range(0, self.number_of_cells) ])
+        self.nodes = np.array([ Node(self.number_of_inputs, self.dataset.digits[i]) for i in range(0, self.number_of_nodes) ])
 
 
     def train(self):
 
         for i in range(0, len(self.dataset.train_labels)):
 
-            for j in range(0, self.number_of_cells):
+            for j in range(0, self.number_of_nodes):
 
                 inputs = self.dataset.train_images[i,:]
                 train_digit = self.dataset.train_labels[i]
-                self.cells[j].learn(inputs, train_digit)
+                self.nodes[j].learn(inputs, train_digit)
 
 
     def test(self):
@@ -64,12 +64,12 @@ class Network:
 
         for i in range(0, len(self.dataset.test_labels)):
             
-            for j in range(0, self.number_of_cells):
+            for j in range(0, self.number_of_nodes):
             
                 inputs = self.dataset.test_images[i,:]
-                self.cells[j].predict(inputs)
+                self.nodes[j].predict(inputs)
 
-            predicted = [ self.cells[i].output for i in range(0, self.number_of_cells ) ]
+            predicted = [ self.nodes[i].output for i in range(0, self.number_of_nodes ) ]
             predicted_index = predicted.index(max(predicted))
             current_digit = self.dataset.digits[predicted_index]
             test_digit = self.dataset.test_labels[i]
@@ -86,12 +86,12 @@ class Network:
         
         for i in range(0, self.data_validation.number_of_images ):
         
-            for j in range(0, self.number_of_cells):
+            for j in range(0, self.number_of_nodes):
         
                 inputs = self.data_validation.train_images[i,:]
-                self.cells[j].predict(inputs)
+                self.nodes[j].predict(inputs)
             
-            predicted = [ self.cells[i].output for i in range(0, self.number_of_cells ) ]
+            predicted = [ self.nodes[i].output for i in range(0, self.number_of_nodes ) ]
             predicted_index = predicted.index(max(predicted))
             predicted_digit = self.data_validation.digits[predicted_index]
             print(predicted_digit)
